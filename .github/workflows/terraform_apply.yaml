@@ -5,10 +5,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  deployment:
+  terraform_apply:
+    strategy:
+      matrix:
+        environment: ["staging", "production"]
     runs-on: ubuntu-latest
-    environment: staging
+    environment: ${{ matrix.environment }}
     steps:
       - name: deploy
         run: |
-          echo "deploying to staging"
+          echo "deploying to ${{ matrix.environment }}"
