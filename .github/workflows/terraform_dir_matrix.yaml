@@ -27,8 +27,7 @@ jobs:
       - name: Discover Terraform subdirectories
         id: dirs
         run: |
-          echo **/*.tf
-          terraform_dirs=$(echo **/*.tf | xargs dirname | sort -u | grep -v 'modules/')
+          terraform_dirs=$(find terraform/ -type f -name "*.tf" -exec dirname {} \; | sort -u)
           echo "terraform_dirs=$terraform_dirs"
           terraform_dirs_json=$(jq -ncR '[inputs]' <<< "$terraform_dirs"
           echo "terraform_dirs=$terraform_dirs_json" >> $GITHUB_OUTPUTS
