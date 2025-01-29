@@ -3,8 +3,9 @@ on:
     branches:
     # Using main for testing for now, once we are in a good spot we will switch over to release branch strategy.
       - main
-    paths:
-      - "terraform/**"
+    # Commented for testing
+    # paths:
+    #   - "terraform/**"
   workflow_dispatch:
 
 defaults:
