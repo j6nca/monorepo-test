@@ -16,15 +16,10 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.dirs.outputs.terraform_dirs }}
+      terraform_dirs: ${{ steps.dirs.outputs.terraform_dirs }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: '1.10.4'
 
       - name: Discover Terraform subdirectories
         id: dirs
@@ -34,6 +29,17 @@ jobs:
           terraform_dirs_json=$(jq -ncR '[inputs]' <<< "$terraform_dirs")
           echo "terraform_dirs=$terraform_dirs_json" >> $GITHUB_OUTPUT
 
+      - name: Debug output
+        run: |
+          echo 'test: ${{ steps.dirs.outputs.terraform_dirs}}'
+  # test-output:
+  #   needs: [setup]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Debug output
+  #       run: |
+  #         echo '${{needs.setup.outputs.terraform_dirs}}'
+  #         echo '${{fromJson(needs.setup.outputs.terraform_dirs)}}'
   terraform-plan:
     needs: [setup]
     runs-on: ubuntu-latest
@@ -41,6 +47,13 @@ jobs:
       matrix: 
         terraform_dir: ${{fromJson(needs.setup.outputs.terraform_dirs)}}
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: '1.10.4'
       - name: Run init and plan
         run: |
           cd ${{matrix.terraform_dir}}
