@@ -16,7 +16,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.dirs.outputs.terraform_dir }}
+      matrix: ${{ steps.dirs.outputs.terraform_dirs }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
