@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        terraform_dir: ${{needs.setup.outputs.terraform_dirs}}
+        terraform_dir: ${{fromJson(needs.setup.outputs.terraform_dirs)}}
     steps:
       - name: Run init and plan
         run: |
