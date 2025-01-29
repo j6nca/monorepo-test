@@ -15,7 +15,8 @@ defaults:
 jobs:
   setup:
     runs-on: ubuntu-latest
-
+    outputs:
+      matrix: ${{ steps.dirs.outputs.terraform_dir }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,7 +29,7 @@ jobs:
       - name: Discover Terraform subdirectories
         id: dirs
         run: |
-          terraform_dirs=$(find . -type f -name "*.tf" -exec dirname {} \; | sort -u)
+          terraform_dirs=$(find . -type f -name "*.tf" -exec dirname {} \; | sort -u | grep -v "modules/")
           echo "terraform_dirs=$terraform_dirs"
           terraform_dirs_json=$(jq -ncR '[inputs]' <<< "$terraform_dirs")
           echo "terraform_dirs=$terraform_dirs_json" >> $GITHUB_OUTPUT
