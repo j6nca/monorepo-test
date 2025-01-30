@@ -1,5 +1,5 @@
-locals{
-    environment = "production"
+locals {
+  environment = "production"
 }
 
 resource "null_resource" "service" {

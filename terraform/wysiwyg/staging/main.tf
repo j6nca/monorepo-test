@@ -1,5 +1,5 @@
-locals{
-    environment = "staging"
+locals {
+  environment = "staging"
 }
 
 resource "null_resource" "service" {

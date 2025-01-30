@@ -1,2 +1,2 @@
 environment = "staging"
-name = "service"
+name        = "service"

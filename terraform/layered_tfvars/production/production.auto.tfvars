@@ -1,2 +1,2 @@
 environment = "production"
-name = "service"
+name        = "service"
