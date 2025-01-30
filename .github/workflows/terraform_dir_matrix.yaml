@@ -58,4 +58,16 @@ jobs:
         run: |
           cd ${{matrix.terraform_dir}}
           terraform init
+          terraform fmt -check
+          terraform validate
           terraform plan
+          ls -la
+          pwd
+
+      - name: Run apply
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          cd ${{matrix.terraform_dir}}
+          ls -la
+          pwd
+          terraform apply
